@@ -25,16 +25,16 @@ app.use('/', (req, res, next) => {
 
 process.on('uncaughtException', error => {
   logger.log('error', `captured error: ${error.message}`);
-  setTimeout(() => {
-    throw new Error(error.message);
-  }, 1000);
+  // setTimeout(() => {
+  //   throw new Error(error.message);
+  // }, 1000);
 });
 
 process.on('unhandledRejection', reason => {
   logger.log('error', `Unhandled rejection detected: ${reason.message}`);
-  setTimeout(() => {
-    throw new Error(reason.message);
-  }, 1000);
+  // setTimeout(() => {
+  //   throw new Error(reason.message);
+  // }, 1000);
 });
 
 app.use('/users', userRouter);
