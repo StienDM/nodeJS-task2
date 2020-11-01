@@ -7,6 +7,8 @@ const boardRouter = require('./resources/boards/boards.router');
 const taskRouter = require('./resources/tasks/tasks.router');
 const { errorHandler } = require('./common/error-handler');
 const { logger, logInfo } = require('./common/logger');
+const loginRouter = require('./resources/login/login.js');
+const usersService = require('./resources/users/user.service');
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -37,8 +39,9 @@ process.on('unhandledRejection', reason => {
   // }, 1000);
 });
 
-app.use('/users', userRouter);
-app.use('/boards', [boardRouter, taskRouter]);
+app.use('/login', loginRouter);
+app.use('/users', [usersService.checkToken, userRouter]);
+app.use('/boards', [usersService.checkToken, boardRouter, taskRouter]);
 app.use(logInfo);
 app.use(errorHandler);
 
